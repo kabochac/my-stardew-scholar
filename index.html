@@ -3,111 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE STARDEW SCHOLAR: KNOWLEDGE & INSPIRATION</title>
+    <title>Stardew Valley: Knowledge & Inspiration Centre</title>
     <link href="https://fonts.googleapis.com/css2?family=Zpix&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
-            --stardew-dark-brown: #3a1a05;
-            --stardew-border-brown: #5c2e0b;
-            --stardew-wood: #b9703b;
-            --stardew-light-wood: #e1975b;
-            --stardew-paper: #fbf0cf;
-            --stardew-paper-border: #966137;
-            --stardew-text: #4a2306;
-            --stardew-blue: #2c72b3;
-            --stardew-purple: #8e44ad;
+            --stardew-dark-brown: #240e02;
+            --stardew-border-brown: #4a2002;
+            --stardew-wood: #ab5c20;
+            --stardew-light-wood: #d5833f;
+            --stardew-paper: #fff6df;
+            --stardew-paper-border: #884e1f;
+            --stardew-text: #361600;
+            --stardew-blue: #16498a;
+            --stardew-purple: #621782;
+            --stardew-gold: #e59d18;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; image-rendering: pixelated; }
         body { 
             font-family: 'Zpix', 'PingFang SC', sans-serif; 
-            background-color: #2b1d15;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-color: #150b07;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.25) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.25) 2px, transparent 2px);
+            background-size: 24px 24px;
             color: var(--stardew-text); 
-            padding: 20px; 
+            padding: 35px 20px; 
             display: flex; 
             justify-content: center; 
         }
 
         .container { 
             width: 100%; 
-            max-width: 900px; 
+            max-width: 1300px; 
             background: var(--stardew-wood);
             border: 6px solid var(--stardew-dark-brown);
-            box-shadow: inset -6px -6px 0px var(--stardew-border-brown), inset 6px 6px 0px var(--stardew-light-wood), 0px 8px 0px rgba(0,0,0,0.4);
-            border-radius: 4px;
-            padding: 25px;
+            box-shadow: inset -8px -8px 0px var(--stardew-border-brown), inset 8px 8px 0px var(--stardew-light-wood), 0px 16px 32px rgba(0,0,0,0.7);
+            border-radius: 6px;
+            padding: 35px;
         }
 
         h1 { 
-            font-family: 'Press Start 2P', 'Zpix', sans-serif;
-            font-size: 13px; 
+            font-family: 'Zpix', sans-serif;
+            font-size: 32px; 
             text-align: center; 
             background: var(--stardew-paper);
             color: var(--stardew-dark-brown);
-            padding: 12px 6px;
-            border: 4px solid var(--stardew-dark-brown);
-            box-shadow: inset -4px -4px 0px #c2b280, 0 4px 0px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
+            padding: 18px;
+            border: 5px solid var(--stardew-dark-brown);
+            box-shadow: inset -6px -6px 0px #dbca95, 0 8px 0px rgba(0,0,0,0.35);
+            margin-bottom: 30px;
+            letter-spacing: 1px;
         }
 
-        h2 { font-size: 18px; margin-bottom: 12px; color: #fff; text-shadow: 2px 2px 0px var(--stardew-dark-brown); }
-        .tab-container { display: flex; gap: 10px; margin-bottom: -4px; position: relative; z-index: 2; }
+        /* 大气双栏平行架构 */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+
+        h2 { font-size: 20px; margin-bottom: 18px; color: #fff; text-shadow: 2px 2px 0px var(--stardew-dark-brown); display: flex; align-items: center; gap: 8px; }
         
-        .tab-button {
-            background: #a25c2c; color: #fff; border: 4px solid var(--stardew-dark-brown); border-bottom: none;
-            padding: 10px 20px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: inset 4px 4px 0px #c57d4a;
-        }
-        .tab-button.active { background: var(--stardew-paper); color: var(--stardew-dark-brown); box-shadow: inset 4px 4px 0px #fff; padding-bottom: 14px; }
-
-        .section { 
-            background: #a25c2c; padding: 20px; border: 4px solid var(--stardew-dark-brown);
-            box-shadow: inset -4px -4px 0px #7d441e, inset 4px 4px 0px #c57d4a; margin-bottom: 20px; position: relative; z-index: 1;
+        .section-block {
+            background: #864416; padding: 22px; border: 4px solid var(--stardew-dark-brown);
+            box-shadow: inset -5px -5px 0px #63300d, inset 5px 5px 0px #aa5a22; margin-bottom: 25px;
         }
 
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-        .grid-input { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .grid-input { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
         .span-2 { grid-column: span 2; }
-        .span-3 { grid-column: span 3; }
 
         input, select, textarea { 
             width: 100%; padding: 12px; background: var(--stardew-paper); border: 3px solid var(--stardew-paper-border);
             color: var(--stardew-dark-brown); font-family: inherit; font-size: 15px; font-weight: bold; outline: none;
-            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1);
+            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.15);
         }
-        textarea { height: 100px; resize: none; }
-        input:focus, select:focus, textarea:focus { background: #fff; border-color: var(--stardew-dark-brown); }
+        textarea { height: 90px; resize: none; }
+        input:focus, select:focus, textarea:focus { background: #fff; border-color: var(--stardew-dark-brown); box-shadow: inset 2px 2px 0px rgba(0,0,0,0.05), 0 0 5px var(--stardew-gold); }
         
+        /* 按钮高级像素质感 */
         .btn { 
-            background: #f3a73c; color: var(--stardew-dark-brown); border: 4px solid var(--stardew-dark-brown); 
-            padding: 10px 24px; font-size: 15px; font-weight: bold; cursor: pointer; 
-            box-shadow: inset -4px -4px 0px #c67a13, inset 4px 4px 0px #ffc97a, 0 4px 0 rgba(0,0,0,0.3);
+            background: var(--stardew-gold); color: var(--stardew-dark-brown); border: 4px solid var(--stardew-dark-brown); 
+            padding: 12px 24px; font-size: 15px; font-weight: bold; cursor: pointer; 
+            box-shadow: inset -4px -4px 0px #b57a0f, inset 4px 4px 0px #ffe083, 0 4px 0 rgba(0,0,0,0.4);
+            font-family: 'Zpix', sans-serif;
         }
-        .btn:hover { background: #ffb84d; }
-        .btn:active { transform: translateY(2px); box-shadow: inset 4px 4px 0px #c67a13, 0 2px 0 rgba(0,0,0,0.3); }
-        .btn-sm { padding: 6px 12px; font-size: 13px; background: #78e08f; box-shadow: inset -3px -3px 0px #38a169, inset 3px 3px 0px #bbf7d0, 0 3px 0 rgba(0,0,0,0.2); }
-        .btn-sm.export { background: #60a5fa; box-shadow: inset -3px -3px 0px #2563eb, inset 3px 3px 0px #bfdbfe, 0 3px 0 rgba(0,0,0,0.2); margin-left: 5px; }
+        .btn:hover { background: #ffb834; }
+        .btn:active { transform: translateY(2px); box-shadow: inset 4px 4px 0px #b57a0f, 0 2px 0 rgba(0,0,0,0.4); }
+        
+        .btn-sm { padding: 6px 12px; font-size: 13px; background: #61cc72; box-shadow: inset -3px -3px 0px #2a883a, inset 3px 3px 0px #b1f5c4, 0 3px 0 rgba(0,0,0,0.3); }
+        .btn-sm.export { background: #4a8ee0; box-shadow: inset -3px -3px 0px #16498a, inset 3px 3px 0px #a4ccf7, 0 3px 0 rgba(0,0,0,0.3); margin-left: 5px; color: white; }
 
-        .controls { display: flex; gap: 15px; margin-bottom: 25px; align-items: center; background: #8e4f23; padding: 12px; border: 3px solid var(--stardew-dark-brown); }
-        .controls label { color: white; font-weight: bold; text-shadow: 1px 1px 0 var(--stardew-dark-brown); }
+        .smelt-zone {
+            background: #472005; border: 4px dashed var(--stardew-gold); padding: 16px; margin-bottom: 20px;
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.85);
+        }
 
-        .item-list { display: flex; flex-direction: column; gap: 14px; }
+        .controls { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 20px; background: #6f340d; padding: 16px; border: 3px solid var(--stardew-dark-brown); }
+        @media (min-width: 600px) {
+            .controls { grid-template-columns: 1.5fr 1fr 1fr; align-items: end; }
+        }
+        .controls label { color: white; font-weight: bold; text-shadow: 1px 1px 0 var(--stardew-dark-brown); font-size: 14px; display: block; margin-bottom: 5px; }
+
+        .item-list { display: flex; flex-direction: column; gap: 14px; max-height: 850px; overflow-y: auto; padding-right: 5px; }
+        .item-list::-webkit-scrollbar { width: 10px; }
+        .item-list::-webkit-scrollbar-track { background: var(--stardew-dark-brown); }
+        .item-list::-webkit-scrollbar-thumb { background: var(--stardew-light-wood); border: 2px solid var(--stardew-dark-brown); }
+
         .item-card { 
-            background: var(--stardew-paper); padding: 18px; border: 4px solid var(--stardew-paper-border);
-            box-shadow: inset -3px -3px 0px #e5d7ad, 0 4px 0 rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; 
+            background: var(--stardew-paper); padding: 20px; border: 4px solid var(--stardew-paper-border);
+            box-shadow: inset -3px -3px 0px #decfa0, 0 5px 0 rgba(0,0,0,0.35); display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; 
+            animation: fadeIn 0.2s ease-out;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .citation-text { font-size: 15px; line-height: 1.6; color: var(--stardew-dark-brown); margin-bottom: 10px; font-weight: bold; word-break: break-all; }
-        .item-meta { font-size: 13px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .citation-text { font-size: 15px; line-height: 1.6; color: var(--stardew-dark-brown); margin-bottom: 12px; font-weight: bold; word-break: break-all; }
+        .item-meta { font-size: 13px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .item-link { color: var(--stardew-blue); text-decoration: none; font-weight: bold; }
-        .delete-btn { background: #e74c3c; color: white; border: 3px solid var(--stardew-dark-brown); font-weight: bold; cursor: pointer; padding: 6px 14px; box-shadow: inset -3px -3px 0px #c0392b, 0 3px 0 rgba(0,0,0,0.2); }
-        .tag { background: #4cd137; color: #fff; padding: 3px 8px; border: 2px solid var(--stardew-dark-brown); font-size: 12px; font-weight: bold; }
-        .highlight { background-color: #fffa65; }
-        .hint-text { color: #ffd27d; font-weight: bold; text-shadow: 1px 1px 0 var(--stardew-dark-brown); font-size: 13px; }
+        .item-link:hover { text-decoration: underline; }
+        .delete-btn { background: #cc3f31; color: white; border: 3px solid var(--stardew-dark-brown); font-weight: bold; cursor: pointer; padding: 6px 14px; box-shadow: inset -3px -3px 0px #962319, 0 3px 0 rgba(0,0,0,0.3); font-family: inherit;}
+        .delete-btn:hover { background: #f05243; }
         
-        /* 动态类型样式切换控件 */
+        .tag { color: #fff; padding: 3px 8px; border: 2px solid var(--stardew-dark-brown); font-size: 12px; font-weight: bold; box-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+        .hint-text { color: #fcd28d; font-weight: bold; text-shadow: 1px 1px 0 var(--stardew-dark-brown); font-size: 13px; line-height: 1.5; }
+        
         .dynamic-field { display: block; }
         .hidden-field { display: none !important; }
     </style>
@@ -115,117 +137,205 @@
 <body>
 
 <div class="container">
-    <h1>🌾 Stardew Valley: Ultimate Citation Refinery 🌾</h1>
+    <h1>🌾 Stardew Valley: Knowledge & Inspiration Centre 🌾</h1>
     
-    <div class="tab-container">
-        <button class="tab-button active" onclick="switchTab('literature')">📦 文献背包</button>
-        <button class="tab-button" onclick="switchTab('ideas')">🔮 灵感秘境</button>
-    </div>
+    <div class="workspace">
+        
+        <div class="left-column">
+            
+            <div class="section-block">
+                <h2>📜 智慧文献炼金坊</h2>
+                
+                <div class="smelt-zone">
+                    <label style="color:var(--stardew-gold); font-weight:bold; display:block; margin-bottom:8px; font-size:14px;">🔥 智能炼金熔炼炉 (把不标准的内容扔进来可变成标准格式)</label>
+                    <textarea id="rawInput" style="background:#261102; color:#fffad1; border-color:var(--stardew-gold);" placeholder="在此粘贴任意混乱、网页复制或不标准的粗糙引用文本...&#10;系统将自动为您拆解元素并预测文献子类型。"></textarea>
+                    <button class="btn" style="width:100%; margin-top:10px; background:#d45500; color:#fff; border-color:var(--stardew-dark-brown); box-shadow: inset -4px -4px 0px #803300, inset 4px 4px 0px #ff8838, 0 4px 0 rgba(0,0,0,0.4);" onclick="smartSmelt()">START SMELTING (注入热能解构)</button>
+                </div>
 
-    <div class="section">
-        <div id="panel-literature" class="tab-panel active">
-            <div style="margin-bottom: 15px;">
-                <label style="color:#ffd27d; font-weight:bold; display:block; margin-bottom:5px;">🎯 第一步：选择文献官方标准类型</label>
-                <select id="itemSubType" onchange="adaptFormFields()">
-                    <option value="book">📘 独立专著 / 书籍 (Book)</option>
-                    <option value="journal">🔬 期刊文章 (Journal Article)</option>
-                    <option value="chapter">📖 书中章节 / 文集论文 (Book Chapter)</option>
-                    <option value="video">🎬 网络视频 (Online Video - YouTube/TED等)</option>
-                    <option value="news">📰 新闻报道 / 报纸文章 (News / Newspaper)</option>
-                </select>
+                <div>
+                    <select id="itemSubType" onchange="adaptFormFields()">
+                        <option value="journal" selected>🔬 期刊文章 (Journal Article)</option>
+                        <option value="book">📘 独立专著 / 书籍 (Book)</option>
+                        <option value="chapter">📖 书中章节 / 文集论文 (Book Chapter)</option>
+                        <option value="video">🎬 网络视频 (Online Video)</option>
+                        <option value="news">📰 新闻报道 / 报纸文章 (News / Newspaper)</option>
+                    </select>
+                </div>
+
+                <div class="grid-input">
+                    <input type="text" id="author" class="span-2" placeholder="作者/上传者 (姓, 名首字母. 或 机构全称)">
+                    <input type="text" id="year" placeholder="出版/发布年份 (如: 2026)">
+                    <input type="text" id="dateDetail" class="field-date" placeholder="具体日期 (视频/新闻适用, 如 May 14)">
+                    
+                    <input type="text" id="title" class="span-2" placeholder="文献标题 / 文章名 / 视频名称">
+                    <input type="text" id="source" class="span-2" placeholder="期刊名 / 主书名 / 视频平台 / 报纸媒体">
+                    
+                    <input type="text" id="location" class="field-city" placeholder="出版城市 (仅Chicago书籍适用)">
+                    <input type="text" id="publisher" class="field-pub" placeholder="出版社 (书籍/章节适用)">
+                    <input type="text" id="editor" class="field-edi" placeholder="编者 Editor (章节适用, 名在前姓在后)">
+                    
+                    <input type="text" id="volume" class="field-vol" placeholder="卷号 Volume (如: 14)">
+                    <input type="text" id="issue" class="field-iss" placeholder="期号 Issue (如: 2)">
+                    <input type="text" id="pages" class="field-pag" placeholder="页码范围 (如: 45-67)">
+                    <input type="text" id="extra" class="field-extra" placeholder="额外规格 (视频标签或时长)">
+                    
+                    <input type="text" id="doi" class="span-2" placeholder="DOI 编码 (如: 10.1017/jas.2026.12)">
+                    <input type="text" id="url" class="span-2" placeholder="网络资源完整 URL 网址 (可选)">
+                </div>
+                
+                <div style="margin-top: 15px; text-align: right;">
+                    <button class="btn" onclick="addLiterature()">RECORD LITERATURE (文献入库)</button>
+                </div>
             </div>
 
-            <div class="grid-input">
-                <input type="text" id="author" placeholder="作者/上传者 (例: Smith, J. A. 或 Taylor, Susan)">
-                <input type="text" id="year" placeholder="出版年份/发布年份 (如: 2026)">
-                <input type="text" id="title" class="span-2" placeholder="文献标题 / 文章名 / 视频名称">
-                
-                <input type="text" id="source" class="span-2" placeholder="期刊名 / 主书名 / 视频平台 / 报纸媒体">
-                
-                <input type="text" id="location" class="field-city" placeholder="出版城市 (仅Chicago书籍需要, 如 New York)">
-                <input type="text" id="publisher" class="field-pub" placeholder="出版社 (书籍/章节适用, 如 Penguin Books)">
-                <input type="text" id="editor" class="field-edi" placeholder="编者 Editor (章节适用, 名在前姓在后)">
-                
-                <input type="text" id="volume" class="field-vol" placeholder="卷号 Volume (如: 14)">
-                <input type="text" id="issue" class="field-iss" placeholder="期号 Issue (如: 2)">
-                <input type="text" id="pages" class="field-pag" placeholder="页码范围 (如: 45-67 或 115-130)">
-                <input type="text" id="dateDetail" class="field-date" placeholder="具体日期 (视频/新闻适用, 如 May 14 或 10月6日)">
-                <input type="text" id="extra" class="field-extra" placeholder="额外规格 (视频账号标签/视频时长, 如 2:15)">
-                
-                <input type="text" id="doi" class="span-2" placeholder="DOI 编码 (如: 10.1017/jas.2026.12，系统自动包装为标准网关)">
-                <input type="text" id="url" class="span-3" placeholder="网络资源完整 URL 网址 (可选)">
+            <div class="section-block">
+                <h2>🔮 灵感之火收集器</h2>
+                <div class="grid-input">
+                    <textarea id="ideaContent" class="span-2" style="height:110px; background:#faf0dc;" placeholder="在此注入你脑海中闪烁的学术火花、突然顿悟的选题、或未成形的试验灵感..."></textarea>
+                    <input type="text" id="ideaTags" class="span-2" placeholder="给灵感贴上分类标签（形如：论文选题, 试验纠错）">
+                </div>
+                <div style="margin-top: 15px; text-align: right;">
+                    <button class="btn" style="background:#953cb5; box-shadow: inset -4px -4px 0px #5c2073, inset 4px 4px 0px #ca7df0, 0 4px 0 rgba(0,0,0,0.4); color:white;" onclick="addIdea()">HARVEST IDEA (收割灵感)</button>
+                </div>
             </div>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                <span class="hint-text">💡 提示：系统将严格依据官方最新版逻辑格式化标点与 DOI 收尾句号。</span>
-                <button class="btn" onclick="addLiterature()">RECORD LITERATURE</button>
+            <div class="hint-text">
+                ⚙️ 炼金法则：文献与灵感属于平级成果。系统在最终导出时将合并封装为完整的星露谷学术资产档案。
             </div>
         </div>
-
-        <div id="panel-ideas" class="tab-panel">
-            <div class="grid-input">
-                <textarea id="ideaContent" class="span-3" placeholder="在这里写下你的零散想法、研究灵感或突然蹦出来的论文选题..."></textarea>
-                <input type="text" id="ideaTags" class="span-3" placeholder="给灵感打上标签，用逗号隔开">
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                <span class="hint-text">💡 灵感是珍贵的作物，记得及时收割。</span>
-                <button class="btn" style="background:#9b59b6; box-shadow: inset -4px -4px 0px #6d318c, inset 4px 4px 0px #c586e2, 0 4px 0 rgba(0,0,0,0.3);" onclick="addIdea()">HARVEST IDEA</button>
-            </div>
-        </div>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h2>🎒 综合收纳箱</h2>
-        <div>
-            <button class="btn btn-sm" style="background:#f3a73c;" onclick="triggerImport()">导入备份</button>
-            <button class="btn btn-sm export" onclick="exportData()">💾 导出全量数据</button>
-            <input type="file" id="importFile" style="display:none;" accept=".txt" onchange="importData(this)">
-        </div>
-    </div>
-    
-    <div class="controls">
-        <input type="text" id="searchBar" placeholder="🔍 全局雷达：输入任意关键字过滤筛选记录..." oninput="renderAll()">
         
-        <div id="citation-select-wrapper" style="display: flex; align-items: center; gap: 5px; white-space: nowrap;">
-            <label for="formatSelect">OFFICIAL FORMAT:</label>
-            <select id="formatSelect" style="padding: 6px; width: 220px;" onchange="renderAll()">
-                <option value="APA">APA 7th Edition (最新官方版)</option>
-                <option value="MLA">MLA 9th Edition (最新官方版)</option>
-                <option value="Chicago">Chicago 17th (Bibliography 规范)</option>
-            </select>
-        </div>
-    </div>
+        <div class="right-column">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2>🎒 成果全量综合储物箱</h2>
+                <div>
+                    <button class="btn btn-sm" onclick="triggerImport()">导入数据</button>
+                    <button class="btn btn-sm export" onclick="exportData()">💾 导出备份</button>
+                    <input type="file" id="importFile" style="display:none;" accept=".txt" onchange="importData(this)">
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div>
+                    <label for="searchBar">🔍 关键词雷达（全局实时过滤）：</label>
+                    <input type="text" id="searchBar" placeholder="输入任意关键词筛选..." oninput="renderAll()">
+                </div>
+                
+                <div>
+                    <label for="scopeSelect">🗺️ 检索栏目范围：</label>
+                    <select id="scopeSelect" onchange="renderAll()">
+                        <option value="all">📦 跨栏目综合检索 (全部)</option>
+                        <option value="literature">📜 仅检索文献背包</option>
+                        <option value="ideas">🔮 仅检索灵感秘境</option>
+                    </select>
+                </div>
 
-    <div class="item-list" id="itemList"></div>
+                <div>
+                    <label for="formatSelect">🎯 文献学术规范：</label>
+                    <select id="formatSelect" onchange="renderAll()">
+                        <option value="APA">APA 7th Edition</option>
+                        <option value="MLA">MLA 9th Edition</option>
+                        <option value="Chicago">Chicago 17th (Bib)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="item-list" id="itemList"></div>
+        </div>
+        
+    </div>
 </div>
 
 <script>
     let articles = JSON.parse(localStorage.getItem('stardew_literature_v2')) || [];
     let ideas = JSON.parse(localStorage.getItem('stardew_ideas_v2')) || [];
-    let currentTab = 'literature';
 
-    function switchTab(tab) {
-        currentTab = tab;
-        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-        if (tab === 'literature') {
-            document.querySelectorAll('.tab-button')[0].classList.add('active');
-            document.getElementById('panel-literature').classList.add('active');
-            document.getElementById('citation-select-wrapper').style.display = 'flex';
-        } else {
-            document.querySelectorAll('.tab-button')[1].classList.add('active');
-            document.getElementById('panel-ideas').classList.add('active');
-            document.getElementById('citation-select-wrapper').style.display = 'none';
+    // 智能熔炼炉引擎
+    function smartSmelt() {
+        const raw = document.getElementById('rawInput').value.trim();
+        if(!raw) { alert('🧙‍♂️ 熔炼炉空空如也！请丢入粗糙的文本。'); return; }
+        
+        let author = '', year = '', title = '', source = '', doi = '', url = '', volume = '', issue = '', pages = '';
+        
+        const doiRegex = /(10\.\d{4,9}\/[^\s,;]+)/i;
+        const doiMatch = raw.match(doiRegex);
+        if(doiMatch) doi = doiMatch[1].replace(/[.,;]$/, '');
+        
+        const urlRegex = /(https?:\/\/[^\s,;]+)/gi;
+        let urlMatches = raw.match(urlRegex) || [];
+        for(let u of urlMatches) {
+            if(!u.includes('doi.org')) { url = u.replace(/[.,;]$/, ''); break; }
         }
-        renderAll();
+        
+        const yearRegex = /\(((?:19|20)\d{2})\)/;
+        const yearMatch = raw.match(yearRegex);
+        if(yearMatch) { year = yearMatch[1]; } else {
+            const looseYearMatch = raw.match(/\b((?:19|20)\d{2})\b/);
+            if(looseYearMatch) year = looseYearMatch[1];
+        }
+
+        const pageMatch = raw.match(/\b(\d+)\s*[:（(]\s*(\d+)\s*[)）]?\s*[:\s]\s*(\d+)[–-](\d+)\b/);
+        if (pageMatch) {
+            volume = pageMatch[1]; issue = pageMatch[2]; pages = `${pageMatch[3]}-${pageMatch[4]}`;
+        } else {
+            const simplePage = raw.match(/pp?\.?\s*(\d+[–-]\d+)/i);
+            if(simplePage) pages = simplePage[1];
+        }
+        
+        let cleanText = raw.replace(doiRegex, '').replace(urlRegex, '').trim();
+        let parts = cleanText.split(/\.(?=\s|[A-Z]|$)/).map(p => p.trim()).filter(p => p.length > 0);
+        
+        if(parts.length > 0) {
+            if(year && parts[0].includes(year)) {
+                author = parts[0].split('(')[0].trim();
+                if(parts.length > 1) title = parts[1];
+                if(parts.length > 2) source = parts[2];
+            } else {
+                author = parts[0];
+                if(parts.length > 1) {
+                    if(parts[1].match(/^\(?(19|20)\d{2}\)?$/)) {
+                        if(parts.length > 2) title = parts[2];
+                        if(parts.length > 3) source = parts[3];
+                    } else {
+                        title = parts[1];
+                        if(parts.length > 2) source = parts[2];
+                    }
+                }
+            }
+        }
+        
+        if(year) {
+            author = author.replace(new RegExp(`\\(?${year}\\)?`), '').replace(/,\s*$/, '').trim();
+            title = title.replace(new RegExp(`\\(?${year}\\)?`), '').trim();
+        }
+
+        document.getElementById('author').value = author || 'Unknown Author';
+        document.getElementById('year').value = year || '2026';
+        document.getElementById('title').value = title || 'Parsed Title';
+        document.getElementById('source').value = source || '';
+        document.getElementById('doi').value = doi;
+        document.getElementById('url').value = url;
+        document.getElementById('volume').value = volume;
+        document.getElementById('issue').value = issue;
+        document.getElementById('pages').value = pages;
+        
+        if(raw.toLowerCase().includes('vol.') || raw.toLowerCase().includes('no.') || volume || issue) {
+            document.getElementById('itemSubType').value = 'journal';
+        } else if(raw.toLowerCase().includes('edited by') || raw.toLowerCase().includes('editor')) {
+            document.getElementById('itemSubType').value = 'chapter';
+        } else if(raw.toLowerCase().includes('youtube') || raw.toLowerCase().includes('video')) {
+            document.getElementById('itemSubType').value = 'video';
+        } else {
+            document.getElementById('itemSubType').value = 'book';
+        }
+        
+        adaptFormFields();
+        alert('🔥 熔炼炉提炼完毕！请检查下方文献表单，确认无误后点击入库。');
     }
 
-    // 根据不同学术文献类型自适应调整输入框占位符和可见度
     function adaptFormFields() {
         const type = document.getElementById('itemSubType').value;
         const sourceInput = document.getElementById('source');
         
-        // 初始化隐藏所有特异型字段
         const allSpecFields = ['location', 'publisher', 'editor', 'volume', 'issue', 'pages', 'dateDetail', 'extra'];
         allSpecFields.forEach(f => {
             document.getElementById(f).classList.remove('hidden-field');
@@ -233,21 +343,20 @@
         });
 
         if (type === 'book') {
-            sourceInput.placeholder = "不要填写此栏 (专著书籍无主容器)";
+            sourceInput.placeholder = "不要填写此栏 (独立书籍无主容器)";
             hideFields(['editor', 'volume', 'issue', 'pages', 'dateDetail', 'extra']);
         } else if (type === 'journal') {
             sourceInput.placeholder = "期刊名称 (Journal Title)";
             hideFields(['location', 'publisher', 'editor', 'dateDetail', 'extra']);
         } else if (type === 'chapter') {
-            sourceInput.placeholder = "论文集/主书名 (Book Title)";
+            sourceInput.placeholder = "文集论文/主书名 (Book Title)";
             hideFields(['volume', 'issue', 'dateDetail', 'extra']);
         } else if (type === 'video') {
-            sourceInput.placeholder = "视频播放平台 (如 YouTube)";
+            sourceInput.placeholder = "视频平台 (如 YouTube)";
             document.getElementById('extra').placeholder = "视频时长 (如 2:15)";
-            document.getElementById('author').placeholder = "视频上传者/机构本名";
             hideFields(['location', 'publisher', 'editor', 'volume', 'issue', 'pages']);
         } else if (type === 'news') {
-            sourceInput.placeholder = "报纸/新闻媒体名称 (如 The New York Times)";
+            sourceInput.placeholder = "报纸/新闻媒体名称 (如 BBC)";
             hideFields(['location', 'publisher', 'editor', 'volume', 'issue', 'extra']);
         }
     }
@@ -255,14 +364,13 @@
     function hideFields(arr) {
         arr.forEach(id => {
             const el = document.getElementById(id);
-            el.classList.remove('dynamic-field');
-            el.classList.add('hidden-field');
+            if(el) { el.classList.remove('dynamic-field'); el.classList.add('hidden-field'); }
         });
     }
 
     function addLiterature() {
         const title = document.getElementById('title').value.trim();
-        if (!title) { alert('🧙‍♂️ 提示：文献标题为必填核心项！'); return; }
+        if (!title) { alert('🧙‍♂️ 锻造失败：文献标题属于核心火种，不能为空！'); return; }
 
         articles.unshift({
             id: Date.now(),
@@ -287,18 +395,19 @@
         localStorage.setItem('stardew_literature_v2', JSON.stringify(articles));
         renderAll();
         
-        // 清空表单
-        ['author','year','title','source','location','publisher','editor','volume','issue','pages','dateDetail','extra','doi','url'].forEach(id => document.getElementById(id).value = '');
+        ['author','year','title','source','location','publisher','editor','volume','issue','pages','dateDetail','extra','doi','url','rawInput'].forEach(id => {
+            if(document.getElementById(id)) document.getElementById(id).value = '';
+        });
     }
 
     function addIdea() {
         const content = document.getElementById('ideaContent').value.trim();
-        if (!content) return;
+        if (!content) { alert('🧙‍♂️ 无法收集空无一物的灵感！'); return; }
         ideas.unshift({
             id: Date.now(),
             type: 'idea',
             content: content,
-            tags: document.getElementById('ideaTags').value.trim() || '随笔'
+            tags: document.getElementById('ideaTags').value.trim() || '随笔理念'
         });
         localStorage.setItem('stardew_ideas_v2', JSON.stringify(ideas));
         renderAll();
@@ -307,7 +416,7 @@
     }
 
     function deleteItem(id, type) {
-        if(confirm('丢弃此物品？')) {
+        if(confirm('丢弃该学术资产？')) {
             if (type === 'literature') {
                 articles = articles.filter(a => a.id !== id);
                 localStorage.setItem('stardew_literature_v2', JSON.stringify(articles));
@@ -319,7 +428,6 @@
         }
     }
 
-    // 核心重构：三大官方组织（APA 7th, MLA 9th, Chicago 17th）标准文献条目引擎
     function generateOfficialCitation(item, format) {
         let auth = (item.author || 'Unknown Author').trim();
         let yr = (item.year || 'n.d.').trim();
@@ -334,97 +442,76 @@
         let dt = (item.dateDetail || '').trim();
         let ext = (item.extra || '').trim();
 
-        // 清洗内部已有末尾句号，防止拼接变异
         if (auth.endsWith('.')) auth = auth.slice(0, -1);
         if (ttl.endsWith('.')) ttl = ttl.slice(0, -1);
         if (src.endsWith('.')) src = src.slice(0, -1);
         if (pub.endsWith('.')) pub = pub.slice(0, -1);
 
-        // 预清洗并规范格式化 DOI
         let doiLink = '';
         if (item.doi) {
             let rawDoi = item.doi.trim();
             doiLink = rawDoi.startsWith('http') ? rawDoi : `https://doi.org/${rawDoi}`;
         }
         let urlLink = item.url ? item.url.trim() : '';
-        let targetLink = doiLink || urlLink; // 有DOI优先用DOI链接，否则用普通URL
+        let targetLink = doiLink || urlLink;
 
         if (format === 'APA') {
-            // ==================== APA 7th 官方规范 ====================
-            let linkDot = ''; // APA 规定：URL/DOI末尾绝对不能落句号
-            let suffix = targetLink ? ` ${targetLink}${linkDot}` : '';
-
+            let suffix = targetLink ? ` ${targetLink}` : ''; 
             if (item.subType === 'book') {
                 return `${auth}. (${yr}). <i>${ttl}</i>. ${pub}.${suffix}`;
-            } 
-            else if (item.subType === 'journal') {
+            } else if (item.subType === 'journal') {
                 let volIss = vol ? `, <i>${vol}</i>` : '';
                 if (vol && iss) volIss = `, <i>${vol}</i>(${iss})`;
                 let pStr = pag ? `, ${pag}` : '';
                 return `${auth}. (${yr}). ${ttl}. <i>${src}</i>${volIss}${pStr}.${suffix}`;
-            } 
-            else if (item.subType === 'chapter') {
+            } else if (item.subType === 'chapter') {
                 return `${auth}. (${yr}). ${ttl}. In ${edi} (Ed.), <i>${src}</i> (pp. ${pag}). ${pub}.${suffix}`;
-            } 
-            else if (item.subType === 'video') {
+            } else if (item.subType === 'video') {
                 let uploader = ext ? `${auth} [${ext}]` : auth;
                 let dateStr = dt ? `${yr}, ${dt}` : yr;
                 return `${uploader}. (${dateStr}). <i>${ttl}</i> [Video]. ${src}.${suffix}`;
-            } 
-            else if (item.subType === 'news') {
+            } else if (item.subType === 'news') {
                 let dateStr = dt ? `${yr}, ${dt}` : yr;
                 return `${auth}. (${dateStr}). ${ttl}. <i>${src}</i>.${suffix}`;
             }
         } 
         else if (format === 'MLA') {
-            // ==================== MLA 9th 官方规范 ====================
-            let suffix = targetLink ? `, ${targetLink}.` : '.'; // MLA末尾必须加句号终结
-
+            let suffix = targetLink ? `, ${targetLink}.` : '.'; 
             if (item.subType === 'book') {
                 return `${auth}. <i>${ttl}</i>. ${pub}, ${yr}${suffix}`;
-            } 
-            else if (item.subType === 'journal') {
+            } else if (item.subType === 'journal') {
                 let vStr = vol ? `, vol. ${vol}` : '';
                 let iStr = iss ? `, no. ${iss}` : '';
                 let pStr = pag ? `, pp. ${pag}` : '';
                 return `${auth}. "${ttl}." <i>${src}</i>${vStr}${iStr}, ${yr}${pStr}${suffix}`;
-            } 
-            else if (item.subType === 'chapter') {
+            } else if (item.subType === 'chapter') {
                 let edStr = edi ? `, edited by ${edi}` : '';
                 return `${auth}. "${ttl}." <i>${src}</i>${edStr}, ${pub}, ${yr}, pp. ${pag}${suffix}`;
-            } 
-            else if (item.subType === 'video') {
+            } else if (item.subType === 'video') {
                 return `"${ttl}." <i>${src}</i>, uploaded by ${auth}, ${dt ? dt + ' ' : ''}${yr}${suffix}`;
-            } 
-            else if (item.subType === 'news') {
+            } else if (item.subType === 'news') {
                 return `${auth}. "${ttl}." <i>${src}</i>, ${dt ? dt + ' ' : ''}${yr}${suffix}`;
             }
         } 
         else if (format === 'Chicago') {
-            // ==================== Chicago 17th Bibliography 官方规范 ====================
             let suffix = targetLink ? ` ${targetLink}.` : '.';
-
             if (item.subType === 'book') {
                 let cityStr = loc ? `${loc}: ` : '';
                 return `${auth}. <i>${ttl}</i>. ${cityStr}${pub}, ${yr}.${suffix}`;
-            } 
-            else if (item.subType === 'journal') {
+            } else if (item.subType === 'journal') {
                 let vStr = vol ? ` ${vol}` : '';
                 let iStr = iss ? `, no. ${iss}` : '';
                 let pStr = pag ? `: ${pag}` : '';
                 return `${auth}. "${ttl}." <i>${src}</i>${vStr}${iStr} (${yr})${pStr}.${suffix}`;
-            } 
-            else if (item.subType === 'chapter') {
+            } else if (item.subType === 'chapter') {
                 let edStr = edi ? `, edited by ${edi}` : '';
                 let cityStr = loc ? `${loc}: ` : '';
                 return `${auth}. "${ttl}." In <i>${src}</i>${edStr}, ${pag}. ${cityStr}${pub}, ${yr}.${suffix}`;
-            } 
-            else if (item.subType === 'video') {
+            } else if (item.subType === 'video') {
                 let durStr = ext ? `, ${ext}` : '';
                 let dateStr = dt ? `${dt}, ${yr}` : yr;
                 return `${auth}. "${ttl}." ${src} video${durStr}. ${dateStr}.${suffix}`;
-            } 
-            else if (item.subType === 'news') {
+            } else if (item.subType === 'news') {
                 let dateStr = dt ? `${dt}, ${yr}` : yr;
                 return `${auth}. "${ttl}." <i>${src}</i>, ${dateStr}.${suffix}`;
             }
@@ -432,60 +519,80 @@
         return ttl;
     }
 
+    // 核心重构：支持同等级跨栏目选择的全新多维渲染引擎
     function renderAll() {
         const kw = document.getElementById('searchBar').value.toLowerCase();
+        const scope = document.getElementById('scopeSelect').value;
         const fmt = document.getElementById('formatSelect').value;
         const listEl = document.getElementById('itemList');
         listEl.innerHTML = '';
 
-        if (currentTab === 'literature') {
-            let filtered = articles.filter(a => (a.title||'').toLowerCase().includes(kw) || (a.author||'').toLowerCase().includes(kw));
-            if(filtered.length === 0) { listEl.innerHTML = '<div style="color:white;text-align:center;">背包里空空如也</div>'; return; }
+        let displayPool = [];
+
+        // 根据筛选范围组装平等的对象数据池
+        if (scope === 'all' || scope === 'literature') {
+            articles.forEach(a => displayPool.push({...a, poolType: 'literature'}));
+        }
+        if (scope === 'all' || scope === 'ideas') {
+            ideas.forEach(i => displayPool.push({...i, poolType: 'idea'}));
+        }
+
+        // 统一按时间线由新到旧进行堆叠排序
+        displayPool.sort((x, y) => y.id - x.id);
+
+        // 执行过滤
+        let filtered = displayPool.filter(item => {
+            if (item.poolType === 'literature') {
+                return (item.title||'').toLowerCase().includes(kw) || (item.author||'').toLowerCase().includes(kw) || (item.source||'').toLowerCase().includes(kw);
+            } else {
+                return (item.content||'').toLowerCase().includes(kw) || (item.tags||'').toLowerCase().includes(kw);
+            }
+        });
+
+        if(filtered.length === 0) { 
+            listEl.innerHTML = '<div style="color:#fcd28d;text-align:center;padding:30px;font-weight:bold;">🎒 选定范围的储物格子空空如也</div>'; 
+            return; 
+        }
+        
+        filtered.forEach(item => {
+            let card = document.createElement('div');
+            card.className = 'item-card';
             
-            filtered.forEach(item => {
+            if (item.poolType === 'literature') {
                 let outText = generateOfficialCitation(item, fmt);
-                let card = document.createElement('div');
-                card.className = 'item-card';
                 card.innerHTML = `
                     <div style="flex:1;">
                         <div class="citation-text">${outText}</div>
                         <div class="item-meta">
-                            <span class="tag" style="background:#2c72b3;">${fmt} 官方规范</span>
-                            <span class="tag" style="background:#e67e22;">${item.subType.toUpperCase()}</span>
-                            ${item.url ? `<a href="${item.url}" target="_blank" class="item-link">🌐 原始链接</a>` : ''}
+                            <span class="tag" style="background:var(--stardew-blue);">📜 文献背包</span>
+                            <span class="tag" style="background:#b85c14;">${item.subType.toUpperCase()}</span>
+                            <span class="tag" style="background:var(--stardew-purple);">${fmt}</span>
+                            ${item.url || item.doi ? `<a href="${item.doi ? 'https://doi.org/'+item.doi : item.url}" target="_blank" class="item-link">🌐 追溯数据源</a>` : ''}
                         </div>
                     </div>
                     <button class="delete-btn" onclick="deleteItem(${item.id}, 'literature')">丢弃</button>
                 `;
-                listEl.appendChild(card);
-            });
-        } else {
-            let filtered = ideas.filter(i => (i.content||'').toLowerCase().includes(kw));
-            if(filtered.length === 0) { listEl.innerHTML = '<div style="color:white;text-align:center;">秘境里没有找到灵感</div>'; return; }
-            
-            filtered.forEach(item => {
-                let card = document.createElement('div');
-                card.className = 'item-card';
+            } else {
                 card.innerHTML = `
                     <div style="flex:1;">
-                        <div class="citation-text" style="white-space:pre-wrap;">💭 ${item.content}</div>
+                        <div class="citation-text" style="white-space:pre-wrap; color:#5c1063; font-style: italic;">💭 ${item.content}</div>
                         <div class="item-meta">
-                            <span class="tag" style="background:#9b59b6;">灵感</span>
-                            <span style="color:#7f8c8d; font-weight:bold;">🔖 标签: ${item.tags}</span>
+                            <span class="tag" style="background:var(--stardew-purple);">🔮 灵感秘境</span>
+                            <span style="color:var(--stardew-dark-brown); font-weight:bold; font-size:12px;">🔖 追踪标签: ${item.tags}</span>
                         </div>
                     </div>
-                    <button class="delete-btn" onclick="deleteItem(${item.id}, 'idea')">清除</button>
+                    <button class="delete-btn" style="background:#7f8c8d; box-shadow: inset -3px -3px 0px #5c6364, 0 3px 0 rgba(0,0,0,0.3);" onclick="deleteItem(${item.id}, 'idea')">清除</button>
                 `;
-                listEl.appendChild(card);
-            });
-        }
+            }
+            listEl.appendChild(card);
+        });
     }
 
     function exportData() {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({articles, ideas}));
         const dlAnchor = document.createElement('a');
         dlAnchor.setAttribute("href", dataStr);
-        dlAnchor.setAttribute("download", `stardew_citations_backup.txt`);
+        dlAnchor.setAttribute("download", `stardew_centre_backup.txt`);
         dlAnchor.click();
     }
 
@@ -503,14 +610,14 @@
                     localStorage.setItem('stardew_literature_v2', JSON.stringify(articles));
                     localStorage.setItem('stardew_ideas_v2', JSON.stringify(ideas));
                     renderAll();
-                    alert('🎒 成功从备份恢复行囊！');
+                    alert('🎒 储物箱已成功导入并对齐全量物资！');
                 }
             } catch { alert('解析失败，请确保文件未损坏'); }
         };
         reader.readAsText(file);
     }
 
-    // 默认初始化运行一次表单自适应渲染
+    // 初始化加载
     adaptFormFields();
     renderAll();
 </script>
