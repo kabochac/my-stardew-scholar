@@ -53,14 +53,18 @@
 
         h1 { 
             font-family: 'Press Start 2P', 'Zpix', sans-serif;
-            font-size: 16px; 
+            font-size: 13px; 
             text-align: center; 
             background: var(--stardew-paper);
             color: var(--stardew-dark-brown);
-            padding: 12px;
+            padding: 12px 6px;
             border: 4px solid var(--stardew-dark-brown);
             box-shadow: inset -4px -4px 0px #c2b280, 0 4px 0px rgba(0,0,0,0.2);
             margin-bottom: 20px;
+            /* 核心修改：锁定单行绝不换行 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         h2 {
@@ -206,6 +210,14 @@
 
     <div class="section">
         <div id="panel-literature" class="tab-panel active">
+            <div style="background: #8e4f23; padding: 12px; border: 3px solid var(--stardew-dark-brown); margin-bottom: 15px; box-shadow: inset -2px -2px 0px rgba(0,0,0,0.2);">
+                <span class="hint-text" style="display:block; margin-bottom:6px; font-size:14px; color:#ffd27d;">⚙️ 粗暴文本一次性打磨机（扔进不规范名字/期刊信息直接生成标准一条）：</span>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="rawCitationText" placeholder="把不规范的人名、书名、出版社或抓取的零散引用直接粘在这里（例如：张三, 2026, 论草莓种植, 鹈鹕镇农业杂志）">
+                    <button class="btn btn-sm fetch" style="background: #9b59b6; box-shadow: inset -3px -3px 0px #6d318c, inset 3px 3px 0px #c586e2, 0 3px 0 rgba(0,0,0,0.3); padding:0 15px;" onclick="parseRawCitation()">🪄 熔炼提纯</button>
+                </div>
+            </div>
+
             <div class="grid-input">
                 <div class="url-fetch-group">
                     <input type="text" id="url" placeholder="粘贴网址 URL (可选)">
@@ -222,7 +234,7 @@
                 <input type="text" id="pages" placeholder="页码范围 Pages (如: 45-67，可选)">
             </div>
             <div class="flex-actions">
-                <span class="hint-text">💡 提示：按学术要求录入对应身份，可完美匹配芝加哥、APA等格式。</span>
+                <span class="hint-text">💡 提示：打磨熔炼后信息会自动分装在上方，点击右侧按钮立刻打入背包！</span>
                 <button class="btn" onclick="addLiterature()">RECORD LITERATURE</button>
             </div>
         </div>
@@ -233,7 +245,7 @@
                 <input type="text" id="ideaTags" class="span-3" placeholder="给灵感打上标签，用逗号隔开 (例如: 论文选题, 创作灵感, 工作想法)">
             </div>
             <div class="flex-actions">
-                <span class="hint-text">💡 提示：灵感也是珍贵的作物，记得及时收割。</span>
+                <span class="hint-text">💡 提示：灵感也是珍贵的作物，记得及时收割。支持随时归档保存。</span>
                 <button class="btn" style="background:#9b59b6; box-shadow: inset -4px -4px 0px #6d318c, inset 4px 4px 0px #c586e2, 0 4px 0 rgba(0,0,0,0.3);" onclick="addIdea()">HARVEST IDEA</button>
             </div>
         </div>
@@ -250,6 +262,12 @@
     
     <div class="controls">
         <input type="text" id="searchBar" placeholder="🔍 开启全局雷达：输入任意关键词检索文献与灵感..." oninput="renderAll()">
+        
+        <div id="archive-toggle-wrapper" style="display: none; align-items: center; gap: 5px; white-space: nowrap; background: #a25c2c; padding: 6px 10px; border: 3px solid var(--stardew-dark-brown);">
+            <input type="checkbox" id="showArchived" style="width: auto; margin: 0; cursor: pointer;" onchange="renderAll()">
+            <label for="showArchived" style="color: white; font-weight: bold; text-shadow: 1px 1px 0 var(--stardew-dark-brown); cursor: pointer; font-size: 14px;">📦 包含已归档灵感</label>
+        </div>
+
         <div id="citation-select-wrapper" style="display: flex; align-items: center; gap: 5px;">
             <label for="formatSelect">COLOUR / FORMAT:</label>
             <select id="formatSelect" style="padding: 6px; width: 140px;" onchange="renderAll()">
@@ -277,7 +295,14 @@
             if (!item.id) { item.id = Date.now() + Math.random(); changed = true; }
             return item;
         });
-        if (changed) { localStorage.setItem('my_academic_papers', JSON.stringify(articles)); }
+        ideas = ideas.map(item => {
+            if (item.archived === undefined) { item.archived = false; changed = true; }
+            return item;
+        });
+        if (changed) { 
+            localStorage.setItem('my_academic_papers', JSON.stringify(articles)); 
+            localStorage.setItem('my_stardew_ideas', JSON.stringify(ideas));
+        }
     }
     cleanLegacyData();
 
@@ -290,12 +315,74 @@
             document.querySelectorAll('.tab-button')[0].classList.add('active');
             document.getElementById('panel-literature').classList.add('active');
             document.getElementById('citation-select-wrapper').style.display = 'flex';
+            document.getElementById('archive-toggle-wrapper').style.display = 'none';
         } else {
             document.querySelectorAll('.tab-button')[1].classList.add('active');
             document.getElementById('panel-ideas').classList.add('active');
             document.getElementById('citation-select-wrapper').style.display = 'none';
+            document.getElementById('archive-toggle-wrapper').style.display = 'flex';
         }
         renderAll();
+    }
+
+    // 粗暴不规范文本提取功能
+    function parseRawCitation() {
+        const raw = document.getElementById('rawCitationText').value.trim();
+        if (!raw) { alert('🧙‍♂️ 巫师提示：熔炼炉空空如也，请先粘贴不规范的文本！'); return; }
+        
+        ['author','editor','translator','year','title','source','pages'].forEach(id => document.getElementById(id).value = '');
+
+        // 1. 自动提取4位数字出版年份
+        const yearMatch = raw.match(/\b(19\d\d|20[0-2]\d|2030)\b/);
+        let year = yearMatch ? yearMatch[0] : '';
+        
+        // 2. 自动提取页码范围
+        const pagesMatch = raw.match(/(\d+[-—~]\d+)\s*(页|p|pages)?/i) || raw.match(/(第?\s*\d+\s*页)/) || raw.match(/(p\.\s*\d+)/i);
+        let pages = '';
+        if (pagesMatch) {
+            pages = pagesMatch[1] || pagesMatch[0];
+            pages = pages.replace(/[第页p.]/gi, '').trim();
+        }
+        
+        // 切除年份和页码，对核心字段进行清洗分割
+        let cleanRaw = raw;
+        if (year) cleanRaw = cleanRaw.replace(yearMatch[0], '');
+        if (pagesMatch) cleanRaw = cleanRaw.replace(pagesMatch[0], '');
+        cleanRaw = cleanRaw.replace(/(\s*年\s*|\s*页\s*)/g, ' ');
+        
+        let parts = cleanRaw.split(/[.,，。;；|/\\"'“”《》\[\]]/).map(p => p.trim()).filter(p => p.length > 0);
+        
+        let author = '';
+        let title = '';
+        let source = '';
+        
+        if (parts.length >= 3) {
+            // 算法猜测：最长的部分通常是标题
+            let longestIdx = 0;
+            for (let i = 1; i < parts.length; i++) {
+                if (parts[i].length > parts[longestIdx].length) longestIdx = i;
+            }
+            title = parts[longestIdx];
+            
+            let beforeParts = parts.slice(0, longestIdx);
+            let afterParts = parts.slice(longestIdx + 1);
+            
+            if (beforeParts.length > 0) author = beforeParts.join(', ');
+            if (afterParts.length > 0) source = afterParts.join(', ');
+        } else if (parts.length === 2) {
+            if (parts[0].length > parts[1].length) { title = parts[0]; author = parts[1]; }
+            else { title = parts[1]; author = parts[0]; }
+        } else if (parts.length === 1) {
+            title = parts[0];
+        }
+        
+        if (author) document.getElementById('author').value = author;
+        if (year) document.getElementById('year').value = year;
+        if (title) document.getElementById('title').value = title;
+        if (source) document.getElementById('source').value = source;
+        if (pages) document.getElementById('pages').value = pages;
+        
+        alert('✨ 熔炼提纯完毕！已分装，请检查确认后点击下方 [RECORD LITERATURE] 生成标准行。');
     }
 
     function autoFetchUrl() {
@@ -357,7 +444,7 @@
         localStorage.setItem('my_academic_papers', JSON.stringify(articles));
         renderAll();
         
-        ['url','author','editor','translator','year','title','source','pages'].forEach(id => document.getElementById(id).value = '');
+        ['url','author','editor','translator','year','title','source','pages','rawCitationText'].forEach(id => document.getElementById(id).value = '');
     }
 
     function addIdea() {
@@ -368,13 +455,23 @@
             id: Date.now(),
             type: 'idea',
             content: content,
-            tags: document.getElementById('ideaTags').value.trim() || '随笔'
+            tags: document.getElementById('ideaTags').value.trim() || '随笔',
+            archived: false // 初始非归档状态
         });
         localStorage.setItem('my_stardew_ideas', JSON.stringify(ideas));
         renderAll();
 
         document.getElementById('ideaContent').value = '';
         document.getElementById('ideaTags').value = '';
+    }
+
+    function toggleArchiveIdea(id) {
+        ideas = ideas.map(item => {
+            if (item.id === id) item.archived = !item.archived;
+            return item;
+        });
+        localStorage.setItem('my_stardew_ideas', JSON.stringify(ideas));
+        renderAll();
     }
 
     function deleteItem(id, type) {
@@ -424,6 +521,7 @@
     function renderAll() {
         const keyword = document.getElementById('searchBar').value.trim().toLowerCase();
         const currentFormat = document.getElementById('formatSelect').value;
+        const showArchived = document.getElementById('showArchived').checked;
         const listEl = document.getElementById('itemList');
         listEl.innerHTML = '';
 
@@ -433,19 +531,22 @@
             (item.editor || '').toLowerCase().includes(keyword) || (item.translator || '').toLowerCase().includes(keyword)
         );
 
-        const filteredIdeas = ideas.filter(item => 
-            (item.content || '').toLowerCase().includes(keyword) || (item.tags || '').toLowerCase().includes(keyword)
-        );
+        // 灵感搜索逻辑过滤：支持关键词同时配合是否包含 archive 开关
+        const filteredIdeas = ideas.filter(item => {
+            const matchKeyword = (item.content || '').toLowerCase().includes(keyword) || (item.tags || '').toLowerCase().includes(keyword);
+            if (!showArchived && item.archived) return false;
+            return matchKeyword;
+        });
 
         document.getElementById('list-heading').innerText = keyword 
             ? `📡 全局雷达结果 (文献:${filteredArticles.length} | 灵感:${filteredIdeas.length})`
-            : (currentTab === 'literature' ? `🎒 文献背包 (${articles.length})` : `🔮 灵感仓库 (${ideas.length})`);
+            : (currentTab === 'literature' ? `🎒 文献背包 (${articles.length})` : `🔮 灵感仓库 (${filteredIdeas.length})`);
 
         let displayList = [];
         if (keyword) {
             displayList = [...filteredArticles, ...filteredIdeas].sort((a,b) => b.id - a.id);
         } else {
-            displayList = (currentTab === 'literature') ? articles : ideas;
+            displayList = (currentTab === 'literature') ? articles : filteredIdeas;
         }
 
         if (displayList.length === 0) {
@@ -481,16 +582,28 @@
                     tagsStr = tagsStr.replace(new RegExp(`(${keyword})`, 'gi'), '<span class="highlight">$1</span>');
                 }
 
+                // 归档状态样式计算
+                let archiveBtnText = item.archived ? '🎒 取消归档' : '📦 归档灵感';
+                let archiveBtnStyle = item.archived 
+                    ? 'background: #7f8c8d; box-shadow: inset -3px -3px 0px #5c6366, 0 3px 0 rgba(0,0,0,0.2); color: #fff;' 
+                    : 'background: #eccc68; box-shadow: inset -3px -3px 0px #b38f2e, 0 3px 0 rgba(0,0,0,0.2); color: var(--stardew-dark-brown);';
+                if (item.archived) { card.style = "background: #dcdde1; opacity: 0.75;"; }
+                let archivedBadge = item.archived ? '<span class="tag" style="background:#7f8c8d; margin-right:5px;">📦 已归档</span>' : '';
+
                 card.innerHTML = `
                     <div style="flex: 1;">
                         <div class="idea-text">💭 ${contentStr}</div>
                         <div class="item-meta">
+                            ${archivedBadge}
                             <span class="tag idea-tag">🔮 灵感</span>
                             <span style="color:#7f8c8d; font-weight:bold;">🔖 标签: ${tagsStr}</span>
                             <span style="color:var(--stardew-paper-border); font-weight:bold;">Recorded: ${new Date(item.id).toLocaleDateString()}</span>
                         </div>
                     </div>
-                    <button class="delete-btn" onclick="deleteItem(${item.id}, 'idea')">DELETE</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="delete-btn" style="${archiveBtnStyle} border:3px solid var(--stardew-dark-brown);" onclick="toggleArchiveIdea(${item.id})">${archiveBtnText}</button>
+                        <button class="delete-btn" onclick="deleteItem(${item.id}, 'idea')">DELETE</button>
+                    </div>
                 `;
             }
             listEl.appendChild(card);
