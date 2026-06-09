@@ -192,7 +192,7 @@
                 <h2>🔮 灵感之火收集器</h2>
                 <div class="grid-input">
                     <textarea id="ideaContent" class="span-2" style="height:110px; background:#faf0dc;" placeholder="在此注入你脑海中闪烁的学术火花、突然顿悟的选题、或未成形的试验灵感..."></textarea>
-                    <input type="text" id="ideaTags" class="span-2" placeholder="给灵感贴上分类标签（形如：论文选题, 试验纠错）">
+                    <input type="text" id="ideaTags" class="span-2" placeholder="创作灵感，工作想法，灵光一现">
                 </div>
                 <div style="margin-top: 15px; text-align: right;">
                     <button class="btn" style="background:#953cb5; box-shadow: inset -4px -4px 0px #5c2073, inset 4px 4px 0px #ca7df0, 0 4px 0 rgba(0,0,0,0.4); color:white;" onclick="addIdea()">HARVEST IDEA (收割灵感)</button>
@@ -519,7 +519,6 @@
         return ttl;
     }
 
-    // 核心重构：支持同等级跨栏目选择的全新多维渲染引擎
     function renderAll() {
         const kw = document.getElementById('searchBar').value.toLowerCase();
         const scope = document.getElementById('scopeSelect').value;
@@ -529,7 +528,6 @@
 
         let displayPool = [];
 
-        // 根据筛选范围组装平等的对象数据池
         if (scope === 'all' || scope === 'literature') {
             articles.forEach(a => displayPool.push({...a, poolType: 'literature'}));
         }
@@ -537,10 +535,8 @@
             ideas.forEach(i => displayPool.push({...i, poolType: 'idea'}));
         }
 
-        // 统一按时间线由新到旧进行堆叠排序
         displayPool.sort((x, y) => y.id - x.id);
 
-        // 执行过滤
         let filtered = displayPool.filter(item => {
             if (item.poolType === 'literature') {
                 return (item.title||'').toLowerCase().includes(kw) || (item.author||'').toLowerCase().includes(kw) || (item.source||'').toLowerCase().includes(kw);
@@ -617,7 +613,6 @@
         reader.readAsText(file);
     }
 
-    // 初始化加载
     adaptFormFields();
     renderAll();
 </script>
