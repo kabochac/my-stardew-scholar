@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE STARDEW SCHOLAR: KNOWLEDGE & INSPIRATION</title>
+    <!-- 星露谷风格像素金南瓜图标 -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' style='image-rendering:pixelated;'><path d='M7,1 h2 v2 h-2 z' fill='%234a2306'/><path d='M6,3 h4 v1 h-4 z' fill='%2327ae60'/><path d='M4,4 h8 v1 h-8 z' fill='%23d35400'/><path d='M2,5 h12 v2 h-12 z' fill='%23e67e22'/><path d='M1,7 h14 v5 h-14 z' fill='%23f39c12'/><path d='M2,12 h12 v1 h-12 z' fill='%23e67e22'/><path d='M4,13 h8 v1 h-8 z' fill='%23d35400'/><path d='M6,14 h4 v1 h-4 z' fill='%23ba4a00'/><path d='M5,7 h1 v4 h-1 zM10,7 h1 v4 h-1 z' fill='%23ba4a00'/></svg>">
+    <!-- 引入复古像素字体 -->
     <link href="https://fonts.googleapis.com/css2?family=Zpix&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -61,7 +63,6 @@
             border: 4px solid var(--stardew-dark-brown);
             box-shadow: inset -4px -4px 0px #c2b280, 0 4px 0px rgba(0,0,0,0.2);
             margin-bottom: 20px;
-            /* 核心修改：锁定单行绝不换行 */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -209,9 +210,11 @@
     </div>
 
     <div class="section">
+        <!-- 面板1：文献录入 -->
         <div id="panel-literature" class="tab-panel active">
+            <!-- 粗暴文本一次性打磨熔炼栏 -->
             <div style="background: #8e4f23; padding: 12px; border: 3px solid var(--stardew-dark-brown); margin-bottom: 15px; box-shadow: inset -2px -2px 0px rgba(0,0,0,0.2);">
-                <span class="hint-text" style="display:block; margin-bottom:6px; font-size:14px; color:#ffd27d;">⚙️ 粗暴文本一次性打磨机（扔进不规范名字/期刊信息直接生成标准一条）：</span>
+                <span class="hint-text" style="display:block; margin-bottom:6px; font-size:14px; color:#ffd27d;">⚙️ 粗暴文本一次性打磨机（扔进不规范人名/期刊信息直接生成标准条）：</span>
                 <div style="display: flex; gap: 10px;">
                     <input type="text" id="rawCitationText" placeholder="把不规范的人名、书名、出版社或抓取的零散引用直接粘在这里（例如：张三, 2026, 论草莓种植, 鹈鹕镇农业杂志）">
                     <button class="btn btn-sm fetch" style="background: #9b59b6; box-shadow: inset -3px -3px 0px #6d318c, inset 3px 3px 0px #c586e2, 0 3px 0 rgba(0,0,0,0.3); padding:0 15px;" onclick="parseRawCitation()">🪄 熔炼提纯</button>
@@ -223,14 +226,14 @@
                     <input type="text" id="url" placeholder="粘贴网址 URL (可选)">
                     <button class="btn btn-sm fetch" onclick="autoFetchUrl()">🧙‍♂️ 魔法解析网址</button>
                 </div>
-                <input type="text" id="author" placeholder="作者 Writer / Author">
+                <input type="text" id="author" placeholder="作者 Writer / Author (例: Smith, J. 或 张三)">
                 <input type="text" id="editor" placeholder="编者 Editor (可选)">
                 <input type="text" id="translator" placeholder="译者 Translator (可选)">
                 
-                <input type="text" id="title" class="span-2" placeholder="文献/文章标题 Title">
+                <input type="text" id="title" class="span-2" placeholder="文献/文章/书籍标题 Title">
                 <input type="text" id="year" placeholder="出版年份 Year (如: 2026)">
                 
-                <input type="text" id="source" class="span-2" placeholder="期刊名 / 出版社 / 网站名称 Source">
+                <input type="text" id="source" class="span-2" placeholder="期刊名 / 出版社 / 网站名称 Source Container">
                 <input type="text" id="pages" placeholder="页码范围 Pages (如: 45-67，可选)">
             </div>
             <div class="flex-actions">
@@ -239,6 +242,7 @@
             </div>
         </div>
 
+        <!-- 面板2：灵感录入 -->
         <div id="panel-ideas" class="tab-panel">
             <div class="grid-input">
                 <textarea id="ideaContent" class="span-3" placeholder="在这里写下你的零散想法、关键词、读书心得或突然蹦出来的灵感..."></textarea>
@@ -251,6 +255,7 @@
         </div>
     </div>
 
+    <!-- 全局控制中心 -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
         <h2>🎒 全局检索与存档</h2>
         <div>
@@ -263,6 +268,7 @@
     <div class="controls">
         <input type="text" id="searchBar" placeholder="🔍 开启全局雷达：输入任意关键词检索文献与灵感..." oninput="renderAll()">
         
+        <!-- 灵感仓库专属的 Archive 检索筛选控制器 -->
         <div id="archive-toggle-wrapper" style="display: none; align-items: center; gap: 5px; white-space: nowrap; background: #a25c2c; padding: 6px 10px; border: 3px solid var(--stardew-dark-brown);">
             <input type="checkbox" id="showArchived" style="width: auto; margin: 0; cursor: pointer;" onchange="renderAll()">
             <label for="showArchived" style="color: white; font-weight: bold; text-shadow: 1px 1px 0 var(--stardew-dark-brown); cursor: pointer; font-size: 14px;">📦 包含已归档灵感</label>
@@ -270,15 +276,16 @@
 
         <div id="citation-select-wrapper" style="display: flex; align-items: center; gap: 5px;">
             <label for="formatSelect">COLOUR / FORMAT:</label>
-            <select id="formatSelect" style="padding: 6px; width: 140px;" onchange="renderAll()">
-                <option value="APA">APA 格式</option>
-                <option value="MLA">MLA 格式</option>
-                <option value="Chicago">Chicago (芝加哥)</option>
-                <option value="GB">GB/T 7714 (国标)</option>
+            <select id="formatSelect" style="padding: 6px; width: 160px;" onchange="renderAll()">
+                <option value="APA">APA 7th 最新版</option>
+                <option value="MLA">MLA 9th 最新版</option>
+                <option value="Chicago">Chicago 17th (作者-书目)</option>
+                <option value="GB">GB/T 7714-2015 (国标)</option>
             </select>
         </div>
     </div>
 
+    <!-- 综合收纳箱 -->
     <h2 id="list-heading">📋 综合收纳箱</h2>
     <div class="item-list" id="itemList"></div>
 </div>
@@ -325,18 +332,15 @@
         renderAll();
     }
 
-    // 粗暴不规范文本提取功能
     function parseRawCitation() {
         const raw = document.getElementById('rawCitationText').value.trim();
         if (!raw) { alert('🧙‍♂️ 巫师提示：熔炼炉空空如也，请先粘贴不规范的文本！'); return; }
         
         ['author','editor','translator','year','title','source','pages'].forEach(id => document.getElementById(id).value = '');
 
-        // 1. 自动提取4位数字出版年份
-        const yearMatch = raw.match(/\b(19\d\d|20[0-2]\d|2030)\b/);
+        const yearMatch = raw.match(/(19\d\d|20[0-2]\d|2030)/);
         let year = yearMatch ? yearMatch[0] : '';
         
-        // 2. 自动提取页码范围
         const pagesMatch = raw.match(/(\d+[-—~]\d+)\s*(页|p|pages)?/i) || raw.match(/(第?\s*\d+\s*页)/) || raw.match(/(p\.\s*\d+)/i);
         let pages = '';
         if (pagesMatch) {
@@ -344,20 +348,18 @@
             pages = pages.replace(/[第页p.]/gi, '').trim();
         }
         
-        // 切除年份和页码，对核心字段进行清洗分割
         let cleanRaw = raw;
         if (year) cleanRaw = cleanRaw.replace(yearMatch[0], '');
         if (pagesMatch) cleanRaw = cleanRaw.replace(pagesMatch[0], '');
         cleanRaw = cleanRaw.replace(/(\s*年\s*|\s*页\s*)/g, ' ');
         
-        let parts = cleanRaw.split(/[.,，。;；|/\\"'“”《》\[\]]/).map(p => p.trim()).filter(p => p.length > 0);
+        let parts = cleanRaw.split(/[.,，。;；|/\"'“”《》\[\]]/).map(p => p.trim()).filter(p => p.length > 0);
         
         let author = '';
         let title = '';
         let source = '';
         
         if (parts.length >= 3) {
-            // 算法猜测：最长的部分通常是标题
             let longestIdx = 0;
             for (let i = 1; i < parts.length; i++) {
                 if (parts[i].length > parts[longestIdx].length) longestIdx = i;
@@ -437,7 +439,7 @@
             translator: document.getElementById('translator').value.trim(),
             year: document.getElementById('year').value.trim() || 'n.d.',
             title: title,
-            source: document.getElementById('source').value.trim() || 'Unspecified Source',
+            source: document.getElementById('source').value.trim() || '',
             pages: document.getElementById('pages').value.trim(),
             url: document.getElementById('url').value.trim()
         });
@@ -456,7 +458,7 @@
             type: 'idea',
             content: content,
             tags: document.getElementById('ideaTags').value.trim() || '随笔',
-            archived: false // 初始非归档状态
+            archived: false
         });
         localStorage.setItem('my_stardew_ideas', JSON.stringify(ideas));
         renderAll();
@@ -487,34 +489,82 @@
         }
     }
 
+    // 核心重构：实现严谨的最新版学术引用标准规则
     function generateCitation(item, format) {
-        let authStr = item.author;
-        let edStr = item.editor ? `ed ${item.editor}` : '';
-        let transStr = item.translator ? `trans ${item.translator}` : '';
-        
+        let authStr = (item.author || 'Unknown Author').trim();
+        let yearStr = (item.year || 'n.d.').trim();
+        let titleStr = (item.title || 'Untitled').trim();
+        let sourceStr = (item.source || '').trim();
+        let pagesStr = (item.pages || '').trim();
+        let urlStr = (item.url || '').trim();
+
+        // 去除尾部句号，防止双重标点
+        if (authStr.endsWith('.')) authStr = authStr.slice(0, -1);
+        if (sourceStr.endsWith('.')) sourceStr = sourceStr.slice(0, -1);
+        if (titleStr.endsWith('.')) titleStr = titleStr.slice(0, -1);
+
         switch(format) {
-            case 'APA':
-                let apaMeta = [transStr, edStr].filter(Boolean).join('; ');
-                apaMeta = apaMeta ? ` (${apaMeta})` : '';
-                return `${authStr}. (${item.year}). <i>${item.title}</i>${apaMeta}. ${item.source}${item.pages ? `, ${item.pages}` : ''}.`;
+            case 'APA': // APA 第 7 版最新标准 (American Psychological Association 7th Edition)
+                // 规则：作者. (年份). 标题. [期刊/容器则斜体]. 页码. 网址. (APA7全面取消了图书出版地)
+                let apaMeta = [];
+                if (item.editor) apaMeta.push(`${item.editor}, Ed.`);
+                if (item.translator) apaMeta.push(`${item.translator}, Trans.`);
+                let apaMetaStr = apaMeta.length > 0 ? ` (${apaMeta.join('; ')})` : '';
                 
-            case 'MLA':
-                let mlaEd = item.editor ? `edited by ${item.editor}` : '';
-                let mlaTrans = item.translator ? `translated by ${item.translator}` : '';
-                let mlaMeta = [mlaEd, mlaTrans].filter(Boolean).join(', ');
-                return `${authStr}. <i>${item.title}</i>. ${item.source}, ${mlaMeta ? mlaMeta + ', ' : ''}${item.year}${item.pages ? ', p. ' + item.pages : ''}.`;
+                let apaPages = pagesStr ? `, ${pagesStr}` : '';
+                let apaUrl = urlStr ? ` ${urlStr}` : '';
                 
-            case 'Chicago':
-                let chiTrans = item.translator ? `Translated by ${item.translator}.` : '';
-                let chiEd = item.editor ? `Edited by ${item.editor}.` : '';
-                let chiMeta = [chiTrans, chiEd].filter(Boolean).join(' ');
-                return `${authStr}. <i>${item.title}</i>. ${chiMeta ? chiMeta + ' ' : ''}${item.source}, ${item.year}${item.pages ? ': ' + item.pages : ''}.`;
+                if (sourceStr) {
+                    // 期刊或文章模式
+                    return `${authStr}. (${yearStr}). ${titleStr}${apaMetaStr}. <i>${sourceStr}</i>${apaPages}.${apaUrl}`;
+                } else {
+                    // 独立书籍模式
+                    return `${authStr}. (${yearStr}). <i>${titleStr}</i>${apaMetaStr}.${apaPages ? ' ' + pagesStr + '.' : ''}${apaUrl}`;
+                }
                 
-            case 'GB':
-                let gbTrans = item.translator ? `${item.translator}, 译.` : '';
-                let gbEd = item.editor ? `${item.editor}, 编.` : '';
-                let gbMeta = [gbTrans, gbEd].filter(Boolean).join(' ');
-                return `${authStr}. ${item.title}. ${gbMeta ? gbMeta + ' ' : ''}${item.source}, ${item.year}${item.pages ? ': ' + item.pages : ''}.`;
+            case 'MLA': // MLA 第 9 版最新标准 (Modern Language Association 9th Edition)
+                // 规则：作者. "标题." 斜体容器(期刊/出版社), 贡献者, 年份, pp. 页码. 网址.
+                let mlaContributors = [];
+                if (item.editor) mlaContributors.push(`edited by ${item.editor}`);
+                if (item.translator) mlaContributors.push(`translated by ${item.translator}`);
+                let mlaContribStr = mlaContributors.length > 0 ? `, ${mlaContributors.join(', ')}` : '';
+                
+                let mlaPages = pagesStr ? `, pp. ${pagesStr}` : '';
+                let mlaUrl = urlStr ? `, ${urlStr}` : '';
+                
+                if (sourceStr) {
+                    return `${authStr}. "${titleStr}." <i>${sourceStr}</i>${mlaContribStr}, ${yearStr}${mlaPages}${mlaUrl}.`;
+                } else {
+                    return `${authStr}. <i>${titleStr}</i>${mlaContribStr}, ${yearStr}${mlaPages}${mlaUrl}.`;
+                }
+                
+            case 'Chicago': // Chicago 第 17 版最新标准 (Notes & Bibliography 经典文献列表格式)
+                // 规则：作者. "文章名." 斜体期刊/出版社 (年份): 页码. 网址.
+                let chiMeta = [];
+                if (item.translator) chiMeta.push(`translated by ${item.translator}`);
+                if (item.editor) chiMeta.push(`edited by ${item.editor}`);
+                let chiMetaStr = chiMeta.length > 0 ? ` ${chiMeta.join('. ')}.` : '';
+                
+                let chiPages = pagesStr ? `: ${pagesStr}` : '';
+                let chiUrl = urlStr ? ` ${urlStr}.` : '';
+                
+                if (sourceStr) {
+                    return `${authStr}. "${titleStr}." <i>${sourceStr}</i>${chiMetaStr} (${yearStr})${chiPages}.${chiUrl}`;
+                } else {
+                    return `${authStr}. <i>${titleStr}</i>.${chiMetaStr} ${yearStr}${chiPages}.${chiUrl}`;
+                }
+                
+            case 'GB': // 中国国标 GB/T 7714-2015 
+                let gbMeta = [];
+                if (item.editor) gbMeta.push(`${item.editor}, 编`);
+                if (item.translator) gbMeta.push(`${item.translator}, 译`);
+                let gbMetaStr = gbMeta.length > 0 ? `. ${gbMeta.join(', ')}` : '';
+                
+                let gbPages = pagesStr ? `: ${pagesStr}` : '';
+                let gbUrl = urlStr ? `. ${urlStr}` : '';
+                let gbSource = sourceStr ? `. ${sourceStr}` : '';
+                
+                return `${authStr}. ${titleStr}${gbMetaStr}${gbSource}, ${yearStr}${gbPages}${gbUrl}.`;
         }
     }
 
@@ -531,7 +581,6 @@
             (item.editor || '').toLowerCase().includes(keyword) || (item.translator || '').toLowerCase().includes(keyword)
         );
 
-        // 灵感搜索逻辑过滤：支持关键词同时配合是否包含 archive 开关
         const filteredIdeas = ideas.filter(item => {
             const matchKeyword = (item.content || '').toLowerCase().includes(keyword) || (item.tags || '').toLowerCase().includes(keyword);
             if (!showArchived && item.archived) return false;
@@ -567,7 +616,7 @@
                     <div style="flex: 1;">
                         <div class="citation-text">${htmlStr}</div>
                         <div class="item-meta">
-                            <span class="tag">${currentFormat}</span>
+                            <span class="tag" style="background:#2c72b3;">${currentFormat} 最新版</span>
                             ${urlHTML}
                             <span style="color:var(--stardew-paper-border); font-weight:bold;">Harvested: ${new Date(item.id).toLocaleDateString()}</span>
                         </div>
@@ -582,7 +631,6 @@
                     tagsStr = tagsStr.replace(new RegExp(`(${keyword})`, 'gi'), '<span class="highlight">$1</span>');
                 }
 
-                // 归档状态样式计算
                 let archiveBtnText = item.archived ? '🎒 取消归档' : '📦 归档灵感';
                 let archiveBtnStyle = item.archived 
                     ? 'background: #7f8c8d; box-shadow: inset -3px -3px 0px #5c6366, 0 3px 0 rgba(0,0,0,0.2); color: #fff;' 
